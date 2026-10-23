@@ -16,5 +16,6 @@ export default function drawButter(canvas_handler){
         {x:50, y:600}
     ]
 
-    lib.polygon(titik_kompor, { r: 254, g: 226, b: 145 });
+    lib.polygon(butter, { r: 254, g: 226, b: 145 });
+    ctx.putImageData(image_data, 0, 0);
 }

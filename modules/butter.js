@@ -16,9 +16,7 @@ export default function drawButter(canvas_handler){
         {x:50, y:600}
     ]
 
-<<<<<<< Updated upstream
     lib.polygon(titik_kompor, { r: 254, g: 226, b: 145 });
-=======
     let butterAtas = [
         { x: 1025, y: 255 },
         { x: 1120, y: 255 },
@@ -84,5 +82,4 @@ export default function drawButter(canvas_handler){
             ctx.fillText("BUTTER", 1062, 292);
         }
     });
->>>>>>> Stashed changes
 }

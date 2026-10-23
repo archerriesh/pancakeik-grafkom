@@ -13,20 +13,19 @@ export default function drawButter(canvas_handler) {
         { x: 1015, y: 310 }
     ]
 
-    lib.polygon(titik_kompor, { r: 254, g: 226, b: 145 });
     let butterAtas = [
         { x: 1025, y: 255 },
         { x: 1120, y: 255 },
         { x: 1110, y: 270 },
         { x: 1015, y: 270 }
-    ]
+    ];
 
     let butterSamping = [
         { x: 1110, y: 270 },
         { x: 1120, y: 255 },
         { x: 1120, y: 295 },
         { x: 1110, y: 310 }
-    ]
+    ];
 
     // mangkok luar
     lib.polar_circle(1070, 280, 70, { r: 218, g: 207, b: 232 });

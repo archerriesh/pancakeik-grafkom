@@ -33,11 +33,34 @@ export default function drawBackground(canvas_handler) {
         }
     }
 
+function blendColor(c1, c2, alpha) {
+    return {
+        r: Math.round(c1.r * (1 - alpha) + c2.r * alpha),
+        g: Math.round(c1.g * (1 - alpha) + c2.g * alpha),
+        b: Math.round(c1.b * (1 - alpha) + c2.b * alpha)
+    };
+}
+
+    const warnaBase = {r:255, g:253,b:232};
+    const pigmenGaris = {r:255, g:220, b:90};
+    const opacity = 0.35;
+
+    const warnaStripe = blendColor(warnaBase, pigmenGaris, opacity);
+    const warnaOverlap = blendColor(warnaStripe, pigmenGaris, opacity);
+
     for (let baris = 0; baris < jumlahBaris; baris++) {
         for (let kolom = 0; kolom < jumlahKolom; kolom++) {
-            const warna = (baris + kolom) % 2 === 0
-                ? { r: 255, g: 245, b: 195 }
-                : { r: 255, g: 253, b: 232 };
+            const isHorizontalStripe = (baris % 2 === 1);
+            const isVerticalStripe = (kolom % 2 === 1);
+
+            let warna;
+            if (isHorizontalStripe && isVerticalStripe) {
+                warna = warnaOverlap;
+            } else if (isHorizontalStripe || isVerticalStripe) {
+                warna = warnaStripe;
+            } else {
+                warna = warnaBase;
+            }
 
             lib.flood_fill(
                 kolom * ukuranKotak + Math.floor(ukuranKotak / 2),
@@ -103,16 +126,33 @@ export default function drawBackground(canvas_handler) {
         }
     }
     
-    lib.polygon(titik_kompor, { r: 255, g: 134, b: 167 });
-    lib.polygon(titik_kotak, { r: 255, g: 201, b: 149 });
-    lib.polygon(titik_kotak2, { r: 255, g: 201, b: 149 });
+    lib.polygon(titik_kompor, {r:255, g:134, b:167});
+    lib.polygon(titik_kotak, {r:255, g:201, b:149});
+    lib.polygon(titik_kotak2, {r:255, g:201, b:149});
     lib.flood_fill(1050,325, {r:255, g:251, b:248});
     lib.polygon(titik_kotak3, {r:176, g:222, b: 210});
     lib.polygon(timer, {r:250, g:190, b:182});
     lib.flood_fill(1050, 135, {r:254, g:229, b:225});
     
-    lib.polar_circle(350, 330, 250, { r: 112, g: 128, b: 144 });
-    lib.flood_fill(350, 330, { r: 112, g: 128, b: 144 });
+
+    //teflon
+    // rgb(89, 93, 92)
+    //rgb(117, 118, 114)
+    // rgb(79, 79, 79)
+    // rgb(65, 67, 66)
+    lib.polar_circle(350, 330, 250, {r:12, g:12, b:12});
+    lib.polar_circle(350, 330, 249, {r:255, g:255, b:255});
+    lib.polar_circle(350, 330, 248, {r:89, g:93, b:92});
+    lib.flood_fill(350, 330, {r:89, g:93, b:92});
+    lib.polar_circle(350, 330, 220, {r:117, g:118, b:114});
+    lib.flood_fill(350, 330, {r:117, g:118, b:114});
+
+    //batas adonan kids
+    lib.polar_circle(350, 330, 180, {r:242, g:228, b:168});
+
+    lib.flood_fill(350, 330, {r:79, g:79, b:79});
+    lib.polar_circle(350, 330, 130, {r:65, g:67, b:66});
+    lib.flood_fill(350, 330, {r:65, g:67, b:66});
 
     ctx.putImageData(image_data, 0, 0);
 }

@@ -1,9 +1,6 @@
 import library from "../lib/libA.js";
 
 export default function drawButter(canvas_handler){
-    canvas_handler.width = window.innerWidth;
-    canvas_handler.height = window.innerHeight;
-
     let ctx = canvas_handler.getContext("2d");
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
 

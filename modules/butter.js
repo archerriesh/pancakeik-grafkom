@@ -13,6 +13,8 @@ export default function drawButter(canvas_handler) {
         { x: 1015, y: 310 }
     ]
 
+    lib.polygon(titik_kompor, { r: 254, g: 226, b: 145 });
+
     let butterAtas = [
         { x: 1025, y: 255 },
         { x: 1120, y: 255 },
@@ -53,4 +55,29 @@ export default function drawButter(canvas_handler) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("BUTTER", 1062, 292);
+
+
+    canvas_handler.addEventListener("click", (e)=> {
+        
+        const rect = canvas_handler.getBoundingClientRect();
+        const mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
+        const mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
+        
+        const jarakKeButter = Math.hypot(mouseX - 1070, mouseY - 280);
+        
+        if (jarakKeButter <= 70 ) {
+            let lib = new library(canvas_handler.width, image_data);
+
+            lib.polar_circle(350, 330, 45, {r:245,g:235,b:200});
+            lib.boundary_fill(350, 330, {r:245,g:235,b:200}, {r:245,g:235,b:200});
+
+            ctx.putImageData(image_data, 0, 0);
+
+            ctx.font = "bold 15px sans-serif";
+            ctx.fillStyle = "#0017C8";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("BUTTER", 1062, 292);
+        }
+    });
 }

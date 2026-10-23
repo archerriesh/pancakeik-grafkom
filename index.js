@@ -1,9 +1,11 @@
 import drawBackground from "./modules/background.js";
 import drawAdonan from "./modules/adonan.js";
 import drawButter from "./modules/butter.js";
+import drawSyrup from "./modules/syrup.js";
 
 const canvas_handler = document.querySelector("#mycanvas");
 
 drawBackground(canvas_handler);
 drawAdonan(canvas_handler);
 drawButter(canvas_handler);
+drawSyrup(canvas_handler);

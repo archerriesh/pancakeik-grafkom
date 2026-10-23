@@ -55,15 +55,17 @@ export default function drawButter(canvas_handler) {
     ctx.fillText("BUTTER", 1062, 292);
 
 
-    canvas_handler.addEventListener("click", (e)=> {
-        
+    canvas_handler.addEventListener("click", (e)=> {  
         const rect = canvas_handler.getBoundingClientRect();
         const mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
         const mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
+
+        const jarakX = mouseX - 1070;
+        const jarakY = mouseY - 280;
+        const jarak = Math.sqrt((jarakX * jarakX) + (jarakY * jarakY))
         
-        const jarakKeButter = Math.hypot(mouseX - 1070, mouseY - 280);
         
-        if (jarakKeButter <= 70 ) {
+        if (jarak <= 70 ) {
             let lib = new library(canvas_handler.width, image_data);
 
             lib.polar_circle(350, 330, 45, {r:245,g:235,b:200});

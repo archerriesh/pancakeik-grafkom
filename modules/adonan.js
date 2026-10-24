@@ -22,7 +22,7 @@ export default function drawAdonan(canvas_handler) {
     ctx.putImageData(image_data, 0, 0);
 
     let xc = 350;
-    let yc = 350;
+    let yc = 330;
     let radius_awal = 35;
     let radius_maksimal = 180 
     let adonan_x = 850;
@@ -32,13 +32,15 @@ export default function drawAdonan(canvas_handler) {
 
     canvas_handler.addEventListener("mousedown", function(e) {
         let rect = canvas_handler.getBoundingClientRect();
-        let mouseX = e.clientX - rect.left;
-        let mouseY = e.clientY - rect.top;
+        let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
+        let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
 
         let dx = mouseX - adonan_x;
         let dy = mouseY - adonan_y;
 
         if(dx*dx + dy*dy <= adonan_r*adonan_r){
+            let canvas_awal = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+
             timer = setInterval(function() {
                 if(radius_awal >= radius_maksimal){
                     clearInterval(timer);
@@ -51,15 +53,13 @@ export default function drawAdonan(canvas_handler) {
                 radius_awal = Math.round(titik_baru.x - xc);
 
                 lib.clearScreen(ctx, canvas_handler);
-                drawBackground(canvas_handler);
-                drawAdonan(canvas_handler);
-                drawButter(canvas_handler);
-                drawSyrup(canvas_handler);
-                
+                ctx.putImageData(canvas_awal, 0, 0);
                 lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
 
+                for (let i = 0; i <= radius_awal; i++) {
+                    lib.polar_circle(xc, yc, i, { r: 242, g: 228, b: 168 });
+                }
                 lib.polar_circle(xc,yc,radius_awal,{ r: 155, g: 125, b: 70 });
-                lib.flood_fill(xc, yc, { r: 242, g: 228, b: 168 }); 
                 ctx.putImageData(lib.image_data, 0, 0);
             },30)
         }

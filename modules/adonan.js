@@ -70,4 +70,10 @@ export default function drawAdonan(canvas_handler) {
             clearInterval(timer); 
         }
     });
+
+    ctx.font = "bold 23px sans-serif";
+    ctx.fillStyle = "#FF86A7";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Adonan", 855, 420);
 }

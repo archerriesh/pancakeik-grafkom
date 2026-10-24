@@ -30,6 +30,7 @@ export default function drawAdonan(canvas_handler) {
     let adonan_r = 76;
     let timer = 0;
 
+    // klik adonan
     canvas_handler.addEventListener("mousedown", function(e) {
         let rect = canvas_handler.getBoundingClientRect();
         let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
@@ -65,12 +66,14 @@ export default function drawAdonan(canvas_handler) {
         }
     });
 
+    // pas mouse dilepas
     window.addEventListener("mouseup", function(e) {
         if (timer) {
             clearInterval(timer); 
         }
     });
 
+    // tulisan
     ctx.font = "bold 23px sans-serif";
     ctx.fillStyle = "#FF86A7";
     ctx.textAlign = "center";

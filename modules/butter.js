@@ -64,6 +64,8 @@ export default function drawButter(canvas_handler) {
     ctx.textBaseline = "middle";
     ctx.fillText("Butter", 1060, 420);
 
+    let timerButter = 0;
+
     // fungsi click menyimpan butter ke teflon
     canvas_handler.addEventListener("click", (e)=> {  
         const rect = canvas_handler.getBoundingClientRect();
@@ -82,7 +84,7 @@ export default function drawButter(canvas_handler) {
 
             ctx.putImageData(image_data, 0, 0);
 
-            setInterval(draw, 500);
+            timerButter = setInterval(draw, 500); 
 
             ctx.font = "bold 15px sans-serif";
             ctx.fillStyle = "#0017C8";
@@ -114,6 +116,7 @@ export default function drawButter(canvas_handler) {
             for (let i = 0; i<=179;i++){
                 lib.polar_circle(350, 330, i, warnaButter);
             }
+            clearInterval(timerButter);
         } else{
             for (let i=pRadius; i<radius;i++){
                 lib.polar_circle(350, 330, i, warnaButter);

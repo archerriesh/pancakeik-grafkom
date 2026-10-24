@@ -24,7 +24,7 @@ export default function drawAdonan(canvas_handler) {
     let xc = 350;
     let yc = 330;
     let radius_awal = 35;
-    let radius_maksimal = 180 
+    let radius_maksimal = 245; 
     let adonan_x = 850;
     let adonan_y = 285;
     let adonan_r = 76;

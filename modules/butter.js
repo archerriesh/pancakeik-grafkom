@@ -7,14 +7,6 @@ export default function drawButter(canvas_handler) {
     let lib = new library(canvas_handler.width, image_data);
 
     let butter = [
-        { x: 1015, y: 270 },
-        { x: 1110, y: 270 },
-        { x: 1110, y: 310 },
-        { x: 1015, y: 310 }
-        {x:100, y:60},
-        {x:650, y:60},
-        {x:650, y:600},
-        {x:50, y:600}
         { x: 1005, y: 305 },
         { x: 1100, y: 305 },
         { x: 1100, y: 345 },

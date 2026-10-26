@@ -1,10 +1,12 @@
 import library from "../lib/libA.js";
+import matrix from "../lib/matrixA.js";
 
 export default function drawSyrup(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
 
     let lib = new library(canvas_handler.width, image_data);
+    let mat = new matrix(canvas_handler.width, image_data);
 
     let daunMaple = [
         // tutup kanan
@@ -91,33 +93,108 @@ export default function drawSyrup(canvas_handler) {
     ctx.textBaseline = "middle";
     ctx.fillText("Maple syrup", 1250, 420);
 
-    let adonanDitekan = false;
+    let xc = 350;
+    let yc = 330;
+    let radius_awal = 35;
+    let radius_maksimal = 245; 
+    let radius_batas = 120;
+    let syrup_x = 1250;
+    let syrup_y = 320;
+    let syrup_r = 80;
+    let timer = 0;
+    let warna_batas = { r: 90, g: 35, b: 10 };
+    let warna_maple = { r: 180, g: 75, b: 15 };
+    let opacity_maple = 0.55;
+
     let adonan_x = 850;
     let adonan_y = 285;
     let adonan_r = 76;
+    let adonanDitekan = false;
+    let canvas_adonan = null;
+    let lib_adonan = null;
 
-    // deteksi klik adonan
+    function blendColor(c1, c2, alpha) {
+        return {
+            r: Math.round(c1.r * (1 - alpha) + c2.r * alpha),
+            g: Math.round(c1.g * (1 - alpha) + c2.g * alpha),
+            b: Math.round(c1.b * (1 - alpha) + c2.b * alpha)
+        };
+    }
+
+    // klik adonan / syrup
     canvas_handler.addEventListener("mousedown", function(e) {
         let rect = canvas_handler.getBoundingClientRect();
         let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
         let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
 
-        let dx = mouseX - adonan_x;
-        let dy = mouseY - adonan_y;
-
-        if (dx * dx + dy * dy <= adonan_r * adonan_r) {
+        let dx_adonan = mouseX - adonan_x;
+        let dy_adonan = mouseY - adonan_y;
+        if(dx_adonan*dx_adonan + dy_adonan*dy_adonan <= adonan_r*adonan_r){
             adonanDitekan = true;
+        }
+
+        let dx = mouseX - syrup_x;
+        let dy = mouseY - syrup_y;
+
+        if(canvas_adonan && (dx*dx + dy*dy <= syrup_r*syrup_r)){
+            timer = setInterval(function() {
+                if(radius_awal >= radius_maksimal){
+                    clearInterval(timer);
+                    return;
+                }
+                
+                let tepi = {x: xc+radius_awal, y:yc};
+                let skala = mat.create_fixedp_scale(xc,yc, 1.02, 1.02);
+                let titik_baru = mat.transform_point(tepi, skala);
+                radius_awal = Math.round(titik_baru.x - xc);
+
+                lib.clearScreen(ctx, canvas_handler);
+                ctx.putImageData(canvas_adonan, 0, 0);
+                lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+
+                lib.gelombangBunga(xc, yc, radius_awal, 5, radius_awal * 0.18, warna_maple);
+                lib.boundary_fill(xc, yc, warna_maple, warna_maple);
+
+                let max_r = Math.ceil(radius_awal * 1.25);
+                let min_x = Math.max(0, xc - max_r);
+                let max_x = Math.min(canvas_handler.width - 1, xc + max_r);
+                let min_y = Math.max(0, yc - max_r);
+                let max_y = Math.min(canvas_handler.height - 1, yc + max_r);
+
+                for (let y = min_y; y <= max_y; y++) {
+                    for (let x = min_x; x <= max_x; x++) {
+                        let warna_sekarang = lib.get_dot(x, y);
+                        if (lib.check_warna(warna_sekarang, warna_maple) === 0) {
+                            let warna_dasar = lib_adonan.get_dot(x, y);
+                            let warna_campur = blendColor(warna_dasar, warna_maple, opacity_maple);
+                            lib.draw_dot(x, y, warna_campur);
+                        }
+                    }
+                }
+
+                lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
+                ctx.putImageData(lib.image_data, 0, 0);
+            }, 30);
         }
     });
 
-    // pas adonan selesai dituang (mouse up)
-    window.addEventListener("mouseup", function() {
+    // pas mouse dilepas
+    window.addEventListener("mouseup", function(e) {
+        if (timer) {
+            clearInterval(timer); 
+        }
+
         if (adonanDitekan) {
             adonanDitekan = false;
+            canvas_adonan = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+            lib_adonan = new library(canvas_handler.width, canvas_adonan);
+
             lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-            lib.gelombangBunga(350, 330, 120, 5, 80 * 0.18, { r: 90, g: 35, b: 10 });
+            lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
             ctx.putImageData(lib.image_data, 0, 0);
         }
     });
 }
+
+
 

@@ -77,7 +77,8 @@ export default function drawButter(canvas_handler) {
         const jarak = Math.sqrt((jarakX * jarakX) + (jarakY * jarakY))
         
         if (jarak <= 70 ) {
-            let lib = new library(canvas_handler.width, image_data);
+            image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+            lib = new library(canvas_handler.width, image_data);
 
             lib.polar_circle(350, 330, 45, {r:245,g:235,b:200});
             lib.boundary_fill(350, 330, {r:245,g:235,b:200}, {r:245,g:235,b:200});

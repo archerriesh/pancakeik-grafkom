@@ -81,7 +81,7 @@ export default function drawSyrup(canvas_handler) {
     ];
 
     lib.polygon(daunMaple, { r: 90, g: 35, b: 10 });
-    lib.boundary_fill(1250, 327, { r: 90, g: 35, b: 10 }, { r: 215, g: 95, b: 10 });
+    lib.flood_fill(1250, 327, { r: 215, g: 95, b: 10 });
 
     ctx.putImageData(image_data, 0, 0);
 
@@ -91,7 +91,33 @@ export default function drawSyrup(canvas_handler) {
     ctx.textBaseline = "middle";
     ctx.fillText("Maple syrup", 1250, 420);
 
-    lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-    lib.gelombangBunga(350, 330, 80, 5, 80 * 0.18, { r: 90, g: 35, b: 10 });
-    ctx.putImageData(lib.image_data, 0, 0);
+    let adonanDitekan = false;
+    let adonan_x = 850;
+    let adonan_y = 285;
+    let adonan_r = 76;
+
+    // deteksi klik adonan
+    canvas_handler.addEventListener("mousedown", function(e) {
+        let rect = canvas_handler.getBoundingClientRect();
+        let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
+        let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
+
+        let dx = mouseX - adonan_x;
+        let dy = mouseY - adonan_y;
+
+        if (dx * dx + dy * dy <= adonan_r * adonan_r) {
+            adonanDitekan = true;
+        }
+    });
+
+    // pas adonan selesai dituang (mouse up)
+    window.addEventListener("mouseup", function() {
+        if (adonanDitekan) {
+            adonanDitekan = false;
+            lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+            lib.gelombangBunga(350, 330, 120, 5, 80 * 0.18, { r: 90, g: 35, b: 10 });
+            ctx.putImageData(lib.image_data, 0, 0);
+        }
+    });
 }
+

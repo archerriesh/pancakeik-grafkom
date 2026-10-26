@@ -89,5 +89,9 @@ export default function drawSyrup(canvas_handler) {
     ctx.fillStyle = "#FF86A7";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("maple syrup", 1250, 430);
+    ctx.fillText("Maple syrup", 1250, 420);
+
+    lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+    lib.gelombangBunga(350, 330, 80, 5, 80 * 0.18, { r: 90, g: 35, b: 10 });
+    ctx.putImageData(lib.image_data, 0, 0);
 }

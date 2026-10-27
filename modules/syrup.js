@@ -137,6 +137,7 @@ export default function drawSyrup(canvas_handler) {
         let dy = mouseY - syrup_y;
 
         if(canvas_adonan && (dx*dx + dy*dy <= syrup_r*syrup_r)){
+            canvas_adonan = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
             timer = setInterval(function() {
                 if(radius_awal >= radius_maksimal){
                     clearInterval(timer);
@@ -182,6 +183,7 @@ export default function drawSyrup(canvas_handler) {
     window.addEventListener("mouseup", function(e) {
         if (timer) {
             clearInterval(timer); 
+            window.radiusSyrup = radius_awal;
         }
 
         if (adonanDitekan) {

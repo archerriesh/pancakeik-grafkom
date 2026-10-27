@@ -59,7 +59,7 @@ export default function drawAdonan(canvas_handler) {
                 for (let i = 0; i <= radius_awal; i++) {
                     lib.polar_circle(xc, yc, i, { r: 242, g: 228, b: 168 });
                 }
-                lib.polar_circle(xc,yc,radius_awal,{ r: 155, g: 125, b: 70 });
+                lib.polar_circle(xc,yc,radius_awal,{ r: 242, g: 228, b: 168 });
                 ctx.putImageData(lib.image_data, 0, 0);
             },30)
         }

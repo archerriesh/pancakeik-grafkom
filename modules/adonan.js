@@ -70,6 +70,7 @@ export default function drawAdonan(canvas_handler) {
     window.addEventListener("mouseup", function(e) {
         if (timer) {
             clearInterval(timer); 
+            window.radiusAdonan = radius_awal;
         }
     });
 

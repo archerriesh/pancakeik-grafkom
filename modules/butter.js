@@ -77,6 +77,8 @@ export default function drawButter(canvas_handler) {
         const jarak = Math.sqrt((jarakX * jarakX) + (jarakY * jarakY))
         
         if (jarak <= 70 ) {
+            window.butterDiklik = true;
+            
             image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
             lib = new library(canvas_handler.width, image_data);
 

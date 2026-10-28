@@ -7,35 +7,35 @@ export default function drawButter(canvas_handler) {
     let lib = new library(canvas_handler.width, image_data);
 
     let butter = [
-        { x: 1005, y: 305 },
-        { x: 1100, y: 305 },
-        { x: 1100, y: 345 },
-        { x: 1005, y: 345 }
+        {x:1005,y:305},
+        {x:1100,y:305},
+        {x:1100,y:345},
+        {x:1005,y:345}
     ]
 
     let butterAtas = [
-        { x: 1015, y: 290 },
-        { x: 1110, y: 290 },
-        { x: 1100, y: 305 },
-        { x: 1005, y: 305 }
+        {x:1015,y:290},
+        {x:1110,y:290},
+        {x:1100,y:305},
+        {x:1005,y:305}
     ];
 
     let butterSamping = [
-        { x: 1100, y: 305 },
-        { x: 1110, y: 290 },
-        { x: 1110, y: 330 },
-        { x: 1100, y: 345 }
+        {x:1100,y:305},
+        {x:1110,y:290},
+        {x:1110,y:330},
+        {x:1100,y:345}
     ];
 
     // mangkok luar
     // rgb(218, 207, 232) warna mangkok luar
-    lib.polar_circle(1060, 317, 70, { r: 218, g: 207, b: 232 });
-    lib.flood_fill(1060, 317, { r: 218, g: 207, b: 232 });
+    lib.polar_circle(1060, 317, 70, {r:218,g:207,b:232});
+    lib.flood_fill(1060, 317, {r:218,g:207,b:232});
 
     // mangkok dalam
     // rgb(225, 210, 240) warna mangkok dalam
-    lib.polar_circle(1060, 317, 45, { r: 255, g: 255, b: 255 });
-    lib.flood_fill(1060, 317, { r: 225, g: 210, b: 240 });
+    lib.polar_circle(1060, 317, 45,{r:255,g:255,b:255});
+    lib.flood_fill(1060, 317, {r:225,g:210,b:240});
 
     // butter
     // rgb(195, 155, 75) warna outline butter

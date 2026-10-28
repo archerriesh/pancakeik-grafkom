@@ -1,6 +1,6 @@
 import library from "../lib/libA.js";
 
-export default function drawButter(canvas_handler) {
+export default function drawButterButter(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
 
@@ -66,7 +66,7 @@ export default function drawButter(canvas_handler) {
 
     let timerButter = 0;
 
-    // fungsi click menyimpan butter ke teflon
+    // fungsi menyimpan butter ke teflon
     canvas_handler.addEventListener("click", (e)=> {  
         const rect = canvas_handler.getBoundingClientRect();
         const mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
@@ -85,9 +85,9 @@ export default function drawButter(canvas_handler) {
             lib.polar_circle(350, 330, 45, {r:245,g:235,b:200});
             lib.boundary_fill(350, 330, {r:245,g:235,b:200}, {r:245,g:235,b:200});
 
-            ctx.putImageData(image_data, 0, 0);
+        ctx.putImageData(image_data, 0, 0, 171, 151, 358, 358);
 
-            timerButter = setInterval(draw, 500); 
+            timerButter = setInterval(drawButter, 500); 
 
             ctx.font = "bold 15px sans-serif";
             ctx.fillStyle = "#0017C8";
@@ -104,11 +104,11 @@ export default function drawButter(canvas_handler) {
         }
     });
 
-    // fungsi draw buat butter meleleh
+    // fungsi buat butter meleleh
     let radius = 45;
     let warnaButter = {r:245,g:235,b:200};
 
-    function draw(){
+    function drawButter(){
         let pRadius = radius;
         radius += 10;
 
@@ -126,7 +126,7 @@ export default function drawButter(canvas_handler) {
             }
         }
 
-        ctx.putImageData(image_data, 0, 0);
+        ctx.putImageData(image_data, 0, 0, 171, 151, 358, 358);
 
         ctx.font = "bold 15px sans-serif";
         ctx.fillStyle = "#0017C8";

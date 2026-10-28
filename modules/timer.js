@@ -44,7 +44,6 @@ export default function timer(canvas_handler) {
         {x:835,y:116}
     ];
 
-    
     let kotakTimerDalam = [
         // atas
         {x:845,y:120},
@@ -77,11 +76,73 @@ export default function timer(canvas_handler) {
         {x:841,y:121}
     ];
 
-    lib.polygon(kotakTimer, {r:255,g:134,b:167});
-    lib.flood_fill(1057, 138, {r:255,g:134,b:167});
 
-    lib.polygon(kotakTimerDalam, {r:254, g:243, b:199});
-    lib.flood_fill(1050, 135, {r:254, g:243, b:199});
+    lib.polygon(kotakTimer, {r:255, g:134, b:167});
+    lib.flood_fill(1057, 138, {r:255, g:134, b:167});
+
+    lib.polygon(kotakTimerDalam, {r:255, g:213, b:79});
+    lib.flood_fill(1050, 135, {r:255, g:213, b:79});
 
     ctx.putImageData(image_data, 0, 0);
+
+    let kotakDalamKanan = 1270;
+
+    function drawTimer(){
+
+        kotakDalamKanan -= 2;
+
+        for (let y = 120; y <= 150; y++) {
+            lib.dda_line(830, y, 1285, y, {r:255, g:134, b:167});
+        }
+
+        if (kotakDalamKanan > 845) {
+            let batasWaktu = [
+                // ata5
+                {x:845, y:120},
+                {x:kotakDalamKanan, y:120},
+
+                // kanan
+                {x:kotakDalamKanan + 4, y:121},
+                {x:kotakDalamKanan + 8, y:123},
+                {x:kotakDalamKanan + 12, y:126},
+                {x:kotakDalamKanan + 14, y:130},
+                {x:kotakDalamKanan + 15, y:135},
+                {x:kotakDalamKanan + 14, y:140},
+                {x:kotakDalamKanan + 12, y:144},
+                {x:kotakDalamKanan + 8, y:147},
+                {x:kotakDalamKanan + 4, y:149},
+                {x:kotakDalamKanan, y:150},
+
+                // bawah
+                {x:845, y:150},
+
+                // kiri
+                {x:841, y:149},
+                {x:837, y:147},
+                {x:833, y:144},
+                {x:831, y:140},
+                {x:830, y:135},
+                {x:831, y:130},
+                {x:833, y:126},
+                {x:837, y:123},
+                {x:841, y:121}
+            ];
+
+            if (kotakDalamKanan <= 1025) {
+                lib.polygon(batasWaktu, {r:205, g:60, b:105});
+                lib.flood_fill(845, 135, {r:205, g:60, b:105});
+            } else {
+                lib.polygon(batasWaktu, {r: 255, g: 213, b: 79});
+                lib.flood_fill(845, 135, {r: 255, g: 213, b: 79});
+            }
+        }
+
+        for (let y = 110; y <= 160; y++) {
+            lib.dda_line(1025, y, 1032, y, {r:205, g:60, b:105});
+        }
+
+        ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
+    }
+
+    setInterval(drawTimer, 150);
 }

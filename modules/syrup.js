@@ -186,15 +186,16 @@ export default function drawSyrup(canvas_handler) {
             window.radiusSyrup = radius_awal;
         }
 
-        if (adonanDitekan) {
-            adonanDitekan = false;
-            canvas_adonan = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-            lib_adonan = new library(canvas_handler.width, canvas_adonan);
+        // ini aku komenin dulu ya -orel
+        // if (adonanDitekan) {
+        //     adonanDitekan = false;
+        //     canvas_adonan = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+        //     lib_adonan = new library(canvas_handler.width, canvas_adonan);
 
-            lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-            lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
-            ctx.putImageData(lib.image_data, 0, 0);
-        }
+        //     lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+        //     lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
+        //     ctx.putImageData(lib.image_data, 0, 0);
+        // }
     });
 }
 

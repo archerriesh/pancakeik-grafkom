@@ -1,5 +1,6 @@
 import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
+import drawPiring from "./piring.js";
 
 export default function timer(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
@@ -86,6 +87,7 @@ export default function timer(canvas_handler) {
     ctx.putImageData(image_data, 0, 0);
 
     let kotakDalamKanan = 1270;
+    let timerInterval = null;
 
     function drawTimer(){
 
@@ -97,7 +99,7 @@ export default function timer(canvas_handler) {
 
         if (kotakDalamKanan > 845) {
             let batasWaktu = [
-                // ata5
+                // atas
                 {x:845, y:120},
                 {x:kotakDalamKanan, y:120},
 
@@ -135,6 +137,12 @@ export default function timer(canvas_handler) {
                 lib.polygon(batasWaktu, {r: 255, g: 213, b: 79});
                 lib.flood_fill(845, 135, {r: 255, g: 213, b: 79});
             }
+        } else {
+            // Ketika timer habis / mati
+            clearInterval(timerInterval);
+            ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
+            drawPiring(canvas_handler);
+            return;
         }
 
         for (let y = 110; y <= 160; y++) {
@@ -144,5 +152,5 @@ export default function timer(canvas_handler) {
         ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
     }
 
-    setInterval(drawTimer, 150);
+    timerInterval = setInterval(drawTimer, 150);
 }

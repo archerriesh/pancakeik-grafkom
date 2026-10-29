@@ -32,6 +32,10 @@ export default function drawAdonan(canvas_handler) {
 
     // klik adonan
     canvas_handler.addEventListener("mousedown", function(e) {
+        if (canvas_handler.isPiring) {
+            return; // ketika sudah ganti piring, adonan tidak bisa dipencet lagi
+        }
+
         let rect = canvas_handler.getBoundingClientRect();
         let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
         let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);

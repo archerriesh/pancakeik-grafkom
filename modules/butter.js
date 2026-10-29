@@ -85,7 +85,7 @@ export default function drawButterButter(canvas_handler) {
             lib.polar_circle(350, 330, 45, {r:245,g:235,b:200});
             lib.boundary_fill(350, 330, {r:245,g:235,b:200}, {r:245,g:235,b:200});
 
-        ctx.putImageData(image_data, 0, 0, 171, 151, 358, 358);
+            ctx.putImageData(image_data, 0, 0, 171, 151, 358, 358);
 
             timerButter = setInterval(drawButter, 500); 
 

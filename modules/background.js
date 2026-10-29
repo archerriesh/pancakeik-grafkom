@@ -70,6 +70,9 @@ function blendColor(c1, c2, alpha) {
         }
     }
 
+    // simpan taplak meja sebelum ditimpa kompor
+    canvas_handler.taplakKompor = new Uint8ClampedArray(image_data.data);
+
     //rgb(255, 134, 167) warna kompor
     // rgb(255, 251, 248) warna bg buat mapple syrup,dll
     //rgb(255, 201, 149) warna kotak sebelahnya lah itulah

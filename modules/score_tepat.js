@@ -20,7 +20,7 @@ export default function score_tepat(canvas_handler) {
     // poin butter
     canvas_handler.addEventListener("click", (e) => {
         if (langkah == 1) {
-            if (window.butterDiklik) {
+            if (canvas_handler.butterDiklik) {
                 langkah = 0;
                 poinButter = 20; 
 
@@ -61,29 +61,29 @@ export default function score_tepat(canvas_handler) {
         }
     });
 
-    window.addEventListener("mouseup", () => {
+    canvas_handler.addEventListener("mouseup", () => {
         clearInterval(kuncipoin);
 
         if(langkah==1){
-            if(window.radiusAdonan){
+            if(canvas_handler.radiusAdonan){
                 poinButter = 0;
                 langkah = 2;
             }
         }
         // poin adonan
         if(langkah==2){
-            if(window.radiusAdonan){
+            if(canvas_handler.radiusAdonan){
                 langkah = 0;
 
                 let statusAdonan = "";
 
-                if(window.radiusAdonan < 170){
+                if(canvas_handler.radiusAdonan < 170){
                     poinAdonan = 20;
                     statusAdonan = "Yahh adonanmu kurang";
-                }else if(window.radiusAdonan <= 195){
+                }else if(canvas_handler.radiusAdonan <= 195){
                     poinAdonan = 40;
                     statusAdonan = "Keren! Adonan kamu pas!"
-                }else if(window.radiusAdonan > 195 && window.radiusAdonan < 245){
+                }else if(canvas_handler.radiusAdonan > 195 && canvas_handler.radiusAdonan < 245){
                     poinAdonan = 10;
                     statusAdonan = "Adonan kamu terlalu banyak!"
                 }else{
@@ -158,12 +158,12 @@ export default function score_tepat(canvas_handler) {
         }
         // poin syrup
         if (langkah == 3) {
-            if (window.radiusSyrup) {
+            if (canvas_handler.radiusSyrup) {
                 let statusSyrup = "";
-                if (window.radiusSyrup < 110) {
+                if (canvas_handler.radiusSyrup < 110) {
                     poinSyrup = 20;
                     statusSyrup = "Syrup Terlalu Sedikit";
-                } else if (window.radiusSyrup <= 130) {
+                } else if (canvas_handler.radiusSyrup <= 130) {
                     poinSyrup = 40;
                     statusSyrup = "Syrup Pas!";
                 } else {

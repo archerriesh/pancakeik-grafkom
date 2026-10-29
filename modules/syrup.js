@@ -180,10 +180,10 @@ export default function drawSyrup(canvas_handler) {
     });
 
     // pas mouse dilepas
-    window.addEventListener("mouseup", function(e) {
+    canvas_handler.addEventListener("mouseup", function(e) {
         if (timer) {
             clearInterval(timer); 
-            window.radiusSyrup = radius_awal;
+            canvas_handler.radiusSyrup = radius_awal;
         }
 
         if (adonanDitekan) {

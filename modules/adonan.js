@@ -67,10 +67,10 @@ export default function drawAdonan(canvas_handler) {
     });
 
     // pas mouse dilepas
-    window.addEventListener("mouseup", function(e) {
+    canvas_handler.addEventListener("mouseup", function(e) {
         if (timer) {
             clearInterval(timer); 
-            window.radiusAdonan = radius_awal;
+            canvas_handler.radiusAdonan = radius_awal;
         }
     });
 

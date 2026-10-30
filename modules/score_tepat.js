@@ -129,9 +129,9 @@ export default function score_tepat(canvas_handler) {
                                 }
                             }
                             ctx.putImageData(image_data, 0, 0);
-                            ctx.font = "bold 17px sans-serif";
-                            ctx.fillStyle = "#004C71";
-                            ctx.fillText("Berikan sirup diatas adonan!", 1050, 560);
+                            // ctx.font = "bold 17px sans-serif";
+                            // ctx.fillStyle = "#004C71";
+                            // ctx.fillText("Berikan sirup diatas adonan!", 1050, 560);
                             langkah = 3;
                         }, 2000);
                     }, 2000);
@@ -148,9 +148,9 @@ export default function score_tepat(canvas_handler) {
                             }
                         }
                         ctx.putImageData(image_data, 0, 0);
-                        ctx.font = "bold 17px sans-serif";
-                        ctx.fillStyle = "#004C71";
-                        ctx.fillText("Berikan sirup diatas adonan!", 1050, 560);
+                        // ctx.font = "bold 17px sans-serif";
+                        // ctx.fillStyle = "#004C71";
+                        // ctx.fillText("Berikan sirup diatas adonan!", 1050, 560);
                         langkah = 3;
                     }, 2000);
                 }

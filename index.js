@@ -8,8 +8,14 @@ import timer from "./modules/timer.js";
 const canvas_handler = document.querySelector("#mycanvas");
 
 drawBackground(canvas_handler);
-drawAdonan(canvas_handler);
+let matangAdonan;
+
+let startTimer = timer(canvas_handler, function(){
+    matangAdonan();
+});
+
+matangAdonan = drawAdonan(canvas_handler, startTimer);
+
 drawButter(canvas_handler);
 drawSyrup(canvas_handler);
 score_tepat(canvas_handler);
-timer(canvas_handler);

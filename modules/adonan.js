@@ -1,7 +1,7 @@
 import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
-export default function drawAdonan(canvas_handler) {
+export default function drawAdonan(canvas_handler, onSelesai) {
     let ctx = canvas_handler.getContext("2d");
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
     let lib = new library(canvas_handler.width, image_data);
@@ -71,13 +71,63 @@ export default function drawAdonan(canvas_handler) {
         if (timer) {
             clearInterval(timer); 
             window.radiusAdonan = radius_awal;
+            onSelesai();
         }
     });
 
+    
     // tulisan
     ctx.font = "bold 23px sans-serif";
     ctx.fillStyle = "#FF86A7";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("Adonan", 855, 420);
+
+    let adonanDibalik = false;
+    let balikAdonan = false;
+
+    function adonanMatang(){
+        balikAdonan = true;
+        adonanDibalik = true;
+    
+        for (let i = 0; i <= radius_awal; i++) {
+            lib.polar_circle(xc, yc, i, { r: 198, g: 137, b: 88 }); 
+        }
+    
+        ctx.putImageData(lib.image_data, 0, 0, 100, 100, 500, 500);
+    
+        ctx.font = "bold 20px sans-serif";
+        ctx.fillStyle = "#005a5b";
+        ctx.textAlign = "center";
+        ctx.fillText("Klik pancake untuk membalikkan adonan!", 1050, 560);
+    
+    }
+
+    canvas_handler.addEventListener("click", function(e) {
+        if (balikAdonan == true){
+            if (adonanDibalik == true){
+                let rect = canvas_handler.getBoundingClientRect();
+
+                let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
+                let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
+
+                let dx = mouseX - xc;
+                let dy = mouseY - yc;
+
+                if (((dx * dx) + (dy * dy)) <= (radius_awal * radius_awal)) {
+                    balikAdonan = false;
+                    
+                    lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+
+                    for (let i = 0; i <= radius_awal; i++) {
+                        lib.polar_circle(xc, yc, i, { r: 242, g: 228, b: 168 });
+                    }
+                    ctx.putImageData(lib.image_data, 0, 0, 100, 100, 500, 500);
+                }
+            }
+        }
+    });
+
+    return adonanMatang;
+    
 }

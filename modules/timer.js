@@ -1,7 +1,7 @@
 import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
-export default function timer(canvas_handler) {
+export default function timer(canvas_handler, adonanMatang) {
     let ctx = canvas_handler.getContext("2d");
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
 
@@ -85,7 +85,9 @@ export default function timer(canvas_handler) {
 
     ctx.putImageData(image_data, 0, 0);
 
+    
     let kotakDalamKanan = 1270;
+    let notifikasi1 = false;
 
     function drawTimer(){
 
@@ -141,8 +143,19 @@ export default function timer(canvas_handler) {
             lib.dda_line(1025, y, 1032, y, {r:205, g:60, b:105});
         }
 
+        if (kotakDalamKanan <= 1045){
+
+            if (notifikasi1 == false){
+                notifikasi1 = true
+                adonanMatang();
+            }
+        }
+
         ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
     }
 
-    setInterval(drawTimer, 150);
+    return function startTimerr(){
+        setInterval(drawTimer, 150);
+    }
+
 }

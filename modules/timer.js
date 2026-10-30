@@ -1,12 +1,11 @@
 import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
-export default function timer(canvas_handler, adonanMatang) {
+export default function timer(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
 
     let lib = new library(canvas_handler.width, image_data);
-    let mat = new matrix(canvas_handler.width, image_data);
 
     let kotakTimer = [
         // atas
@@ -88,6 +87,7 @@ export default function timer(canvas_handler, adonanMatang) {
     
     let kotakDalamKanan = 1270;
     let notifikasi1 = false;
+    let gosong = false;
 
     function drawTimer(){
 
@@ -143,19 +143,98 @@ export default function timer(canvas_handler, adonanMatang) {
             lib.dda_line(1025, y, 1032, y, {r:205, g:60, b:105});
         }
 
+        // logika adonan matang
         if (kotakDalamKanan <= 1045){
-
             if (notifikasi1 == false){
                 notifikasi1 = true
-                adonanMatang();
+                
+                let libMatang = new library(canvas_handler.width, image_data);
+                for (let i = 0; i <= 180; i++){
+                    libMatang.polar_circle(350, 330, i, { r: 198, g: 137, b: 88 });
+                }
+
+                ctx.putImageData(image_data, 0, 0, 100, 100, 500, 500);
+
+                // buat bersihin kotak tulisan
+                for (let y = 521; y < 600; y++) {
+                    for (let x = 701; x < 1400; x++) {
+                        libMatang.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                    }
+                }
+
+                ctx.putImageData(image_data, 0, 0);
+
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillStyle = "#004C71";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("Klik pancake untuk membalikkan adonan!", 1050, 560);
+
+            }
+        }
+        
+        // logika adonan gosong
+        if (kotakDalamKanan <= 855){
+            if (gosong == false){
+                gosong = true;
+
+                let libGosong = new library(canvas_handler.width, image_data);
+
+                for (let i = 0; i <= 180; i++){
+                    libGosong.polar_circle(350, 330, i, {r:0,g:0,b:0});
+
+                }
+
+                ctx.putImageData(image_data, 0, 0, 100, 100, 500, 500);
+
+                // buat bersihin kotak tulisan
+                for (let y = 521; y < 600; y++) {
+                    for (let x = 701; x < 1400; x++) {
+                        libGosong.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                    }
+                }
+
+                ctx.putImageData(image_data, 0, 0);
+
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillStyle = "#C00000";
+                ctx.textAlign = "center";
+                ctx.fillText("Yahh pancake kamu gosong!", 1050, 560);
+
             }
         }
 
         ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
     }
 
+    canvas_handler.addEventListener("click", function(e) {
+        let rect = canvas_handler.getBoundingClientRect();
+        let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
+        let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
+
+        let dx = mouseX - 350;
+        let dy = mouseY - 330;
+
+        if ((dx * dx + dy * dy) <= (180 * 180)){
+            if (kotakDalamKanan <= 1045){
+                if (gosong == false){
+                    kotakDalamKanan = 1270;
+                    notifikasi1 = false;
+    
+                    for (let i = 0; i <= 180; i++){
+                        lib.polar_circle(350, 330, i, { r: 242, g: 228, b: 168 });
+                    }
+    
+                    ctx.putImageData(image_data, 0, 0, 100, 100, 500, 500);
+        
+                }
+            }
+        }
+
+    });
+
     return function startTimerr(){
-        setInterval(drawTimer, 150);
+        setInterval(drawTimer, 100);
     }
 
 }

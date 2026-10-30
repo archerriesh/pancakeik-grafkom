@@ -86,23 +86,6 @@ export default function drawAdonan(canvas_handler, onSelesai) {
     let adonanDibalik = false;
     let balikAdonan = false;
 
-    function adonanMatang(){
-        balikAdonan = true;
-        adonanDibalik = true;
-    
-        for (let i = 0; i <= radius_awal; i++) {
-            lib.polar_circle(xc, yc, i, { r: 198, g: 137, b: 88 }); 
-        }
-    
-        ctx.putImageData(lib.image_data, 0, 0, 100, 100, 500, 500);
-    
-        ctx.font = "bold 20px sans-serif";
-        ctx.fillStyle = "#005a5b";
-        ctx.textAlign = "center";
-        ctx.fillText("Klik pancake untuk membalikkan adonan!", 1050, 560);
-    
-    }
-
     canvas_handler.addEventListener("click", function(e) {
         if (balikAdonan == true){
             if (adonanDibalik == true){
@@ -128,6 +111,5 @@ export default function drawAdonan(canvas_handler, onSelesai) {
         }
     });
 
-    return adonanMatang;
     
 }

@@ -121,6 +121,39 @@ export default function drawSyrup(canvas_handler) {
         };
     }
 
+    // fungsi menggambar syrup (showBatas untuk menampilkan/menyembunyikan garis pembatas)
+    function renderSyrup(showBatas) {
+        lib.clearScreen(ctx, canvas_handler);
+        ctx.putImageData(canvas_adonan, 0, 0);
+        lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+
+        lib.gelombangBunga(xc, yc, radius_awal, 5, radius_awal * 0.18, warna_maple);
+        lib.boundary_fill(xc, yc, warna_maple, warna_maple);
+
+        let max_r = Math.ceil(radius_awal * 1.25);
+        let min_x = Math.max(0, xc - max_r);
+        let max_x = Math.min(canvas_handler.width - 1, xc + max_r);
+        let min_y = Math.max(0, yc - max_r);
+        let max_y = Math.min(canvas_handler.height - 1, yc + max_r);
+
+        for (let y = min_y; y <= max_y; y++) {
+            for (let x = min_x; x <= max_x; x++) {
+                let warna_sekarang = lib.get_dot(x, y);
+                if (lib.check_warna(warna_sekarang, warna_maple) === 0) {
+                    let warna_dasar = lib_adonan.get_dot(x, y);
+                    let warna_campur = blendColor(warna_dasar, warna_maple, opacity_maple);
+                    lib.draw_dot(x, y, warna_campur);
+                }
+            }
+        }
+
+        if (showBatas) {
+            lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
+        }
+
+        ctx.putImageData(lib.image_data, 0, 0);
+    }
+
     // klik adonan / syrup
     canvas_handler.addEventListener("mousedown", function(e) {
         let rect = canvas_handler.getBoundingClientRect();
@@ -136,11 +169,20 @@ export default function drawSyrup(canvas_handler) {
         let dx = mouseX - syrup_x;
         let dy = mouseY - syrup_y;
 
-        if(canvas_adonan && (dx*dx + dy*dy <= syrup_r*syrup_r)){
+        // Maple syrup cuman bisa dipencet ketika adonan udah di atas piring (pas udah mateng)
+        if (dx*dx + dy*dy <= syrup_r*syrup_r) {
+            if (!canvas_handler.isPiring) {
+                return;
+            }
+
             canvas_adonan = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+            lib_adonan = new library(canvas_handler.width, canvas_adonan);
+
             timer = setInterval(function() {
                 if(radius_awal >= radius_maksimal){
                     clearInterval(timer);
+                    timer = 0;
+                    renderSyrup(false); // batas hilang kalau sudah maksimal
                     return;
                 }
                 
@@ -149,41 +191,20 @@ export default function drawSyrup(canvas_handler) {
                 let titik_baru = mat.transform_point(tepi, skala);
                 radius_awal = Math.round(titik_baru.x - xc);
 
-                lib.clearScreen(ctx, canvas_handler);
-                ctx.putImageData(canvas_adonan, 0, 0);
-                lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-
-                lib.gelombangBunga(xc, yc, radius_awal, 5, radius_awal * 0.18, warna_maple);
-                lib.boundary_fill(xc, yc, warna_maple, warna_maple);
-
-                let max_r = Math.ceil(radius_awal * 1.25);
-                let min_x = Math.max(0, xc - max_r);
-                let max_x = Math.min(canvas_handler.width - 1, xc + max_r);
-                let min_y = Math.max(0, yc - max_r);
-                let max_y = Math.min(canvas_handler.height - 1, yc + max_r);
-
-                for (let y = min_y; y <= max_y; y++) {
-                    for (let x = min_x; x <= max_x; x++) {
-                        let warna_sekarang = lib.get_dot(x, y);
-                        if (lib.check_warna(warna_sekarang, warna_maple) === 0) {
-                            let warna_dasar = lib_adonan.get_dot(x, y);
-                            let warna_campur = blendColor(warna_dasar, warna_maple, opacity_maple);
-                            lib.draw_dot(x, y, warna_campur);
-                        }
-                    }
-                }
-
-                lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
-                ctx.putImageData(lib.image_data, 0, 0);
+                renderSyrup(true);
             }, 30);
         }
     });
 
     // pas mouse dilepas
-    window.addEventListener("mouseup", function(e) {
+    canvas_handler.addEventListener("mouseup", function(e) {
         if (timer) {
             clearInterval(timer); 
-            window.radiusSyrup = radius_awal;
+            timer = 0;
+            canvas_handler.radiusSyrup = radius_awal;
+
+            // garis pembatas hilang saat mouse dilepas
+            renderSyrup(false);
         }
 
         // ini aku komenin dulu ya -orel
@@ -198,6 +219,3 @@ export default function drawSyrup(canvas_handler) {
         // }
     });
 }
-
-
-

@@ -8,13 +8,12 @@ import timer from "./modules/timer.js";
 const canvas_handler = document.querySelector("#mycanvas");
 
 drawBackground(canvas_handler);
-let matangAdonan;
 
-let startTimer = timer(canvas_handler, function(){
-    matangAdonan();
+let startTimer;
+drawAdonan(canvas_handler, function() {
+    startTimer();
 });
-
-matangAdonan = drawAdonan(canvas_handler, startTimer);
+startTimer = timer(canvas_handler);
 
 drawButter(canvas_handler);
 drawSyrup(canvas_handler);

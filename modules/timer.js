@@ -88,6 +88,8 @@ export default function timer(canvas_handler) {
     
     let kotakDalamKanan = 1270;
     let notifikasi1 = false;
+    let gosong = false;
+    let sudahDibalik = false;
 
     function drawTimer(){
 
@@ -155,7 +157,8 @@ export default function timer(canvas_handler) {
                 notifikasi1 = true
                 
                 let libMatang = new library(canvas_handler.width, image_data);
-                for (let i = 0; i <= 180; i++){
+                let ukuranPenkeik =  canvas_handler.radiusAdonan;
+                for (let i = 0; i <= ukuranPenkeik; i++){
                     libMatang.polar_circle(350, 330, i, { r: 198, g: 137, b: 88 });
                 }
 
@@ -168,7 +171,7 @@ export default function timer(canvas_handler) {
                     }
                 }
 
-                ctx.putImageData(image_data, 0, 0);
+                ctx.putImageData(image_data, 0, 0, 701, 521, 699, 79);
 
                 ctx.font = "bold 18px sans-serif";
                 ctx.fillStyle = "#004C71";
@@ -186,7 +189,8 @@ export default function timer(canvas_handler) {
 
                 let libGosong = new library(canvas_handler.width, image_data);
 
-                for (let i = 0; i <= 180; i++){
+                let ukuranGosong = canvas_handler.radiusAdonan;
+                for (let i = 0; i <= ukuranGosong; i++){
                     libGosong.polar_circle(350, 330, i, {r:0,g:0,b:0});
 
                 }
@@ -200,7 +204,7 @@ export default function timer(canvas_handler) {
                     }
                 }
 
-                ctx.putImageData(image_data, 0, 0);
+                ctx.putImageData(image_data, 0, 0, 701, 521, 699, 79);
 
                 ctx.font = "bold 18px sans-serif";
                 ctx.fillStyle = "#C00000";
@@ -222,17 +226,24 @@ export default function timer(canvas_handler) {
         let dy = mouseY - 330;
 
         if ((dx * dx + dy * dy) <= (180 * 180)){
-            if (kotakDalamKanan <= 1045){
-                if (gosong == false){
+            if (kotakDalamKanan <= 1045 && gosong == false){
+                if (sudahDibalik == false){
+                    sudahDibalik = true;
                     kotakDalamKanan = 1270;
                     notifikasi1 = false;
+                    
+                    let imgTeflon = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+                    let libTeflon = new library(canvas_handler.width, imgTeflon);
+                    let ukuranPenkeik = canvas_handler.radiusAdonan;
     
-                    for (let i = 0; i <= 180; i++){
-                        lib.polar_circle(350, 330, i, { r: 242, g: 228, b: 168 });
+                    for (let i = 0; i <= ukuranPenkeik; i++){
+                        libTeflon.polar_circle(350, 330, i, { r: 242, g: 228, b: 168 });
                     }
-    
-                    ctx.putImageData(image_data, 0, 0, 100, 100, 500, 500);
-        
+
+                    ctx.putImageData(imgTeflon, 0, 0, 100, 100, 500, 500);
+                } else {
+                    kotakDalamKanan = 845;
+                    drawPiring(canvas_handler);
                 }
             }
         }

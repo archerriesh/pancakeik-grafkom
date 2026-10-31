@@ -77,6 +77,7 @@ export default function drawAdonan(canvas_handler, onSelesai) {
 
             canvas_handler.radiusAdonan = radius_awal;
 
+            canvas_handler.radiusAdonan = radius_awal;
             window.radiusAdonan = radius_awal;
 
         }

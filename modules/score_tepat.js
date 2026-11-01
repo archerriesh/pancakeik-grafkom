@@ -1,4 +1,4 @@
-import library from "../lib/libA.js";
+﻿import library from "../lib/libA.js";
 
 export default function score_tepat(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
@@ -14,6 +14,7 @@ export default function score_tepat(canvas_handler) {
     let poinButter = 0;
     let poinAdonan = 0;
     let poinSyrup = 0;
+    let poinMateng = 0;
     let langkah = 1;
     let kuncipoin = 0;
 
@@ -64,12 +65,6 @@ export default function score_tepat(canvas_handler) {
     canvas_handler.addEventListener("mouseup", () => {
         clearInterval(kuncipoin);
 
-        if(langkah==1){
-            if(canvas_handler.radiusAdonan){
-                poinButter = 0;
-                langkah = 2;
-            }
-        }
         // poin adonan
         if(langkah==2){
             if(canvas_handler.radiusAdonan){
@@ -148,9 +143,10 @@ export default function score_tepat(canvas_handler) {
                             }
                         }
                         ctx.putImageData(image_data, 0, 0);
-                        // ctx.font = "bold 17px sans-serif";
-                        // ctx.fillStyle = "#004C71";
-                        // ctx.fillText("Berikan sirup diatas adonan!", 1050, 560);
+
+                        ctx.font = "bold 18px sans-serif";
+                        ctx.fillStyle = "#004C71";
+                        ctx.fillText("Klik untuk membalikkan pancake!", 1050, 560);            
                         langkah = 3;
                     }, 2000);
                 }
@@ -170,7 +166,20 @@ export default function score_tepat(canvas_handler) {
                     poinSyrup = 15;
                     statusSyrup = "Syrup Terlalu Banyak!";
                 }
-                let total = poinButter + poinAdonan + poinSyrup;
+
+                let teksKematangan = "";
+                if (canvas_handler.statusKematangan === "matang") {
+                    poinMateng = 40;
+                    teksKematangan = "Matang Pas (+40)";
+                } else if (canvas_handler.statusKematangan === "mentah") {
+                    poinMateng = 10;
+                    teksKematangan = "Belum Matang (+10)";
+                } else {
+                    poinMateng = 0;
+                    teksKematangan = "Gosong (+0)";
+                }
+
+                let total = poinButter + poinAdonan + poinMateng + poinSyrup;
                 image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
                 lib = new library(canvas_handler.width, image_data);
                 for (let y = 521; y < 600; y++) {
@@ -190,9 +199,12 @@ export default function score_tepat(canvas_handler) {
                             lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
                         }
                     }
+
                     ctx.putImageData(image_data, 0, 0);
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "#004C71";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
                     ctx.fillText("Skor kamu : " + total , 1050, 560);
                     langkah = 4;
                 }, 2000);

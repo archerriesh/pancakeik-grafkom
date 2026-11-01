@@ -1,4 +1,4 @@
-import library from "../lib/libA.js";
+﻿import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
 export default function drawSyrup(canvas_handler) {
@@ -206,16 +206,5 @@ export default function drawSyrup(canvas_handler) {
             // garis pembatas hilang saat mouse dilepas
             renderSyrup(false);
         }
-
-        // ini aku komenin dulu ya -orel
-        // if (adonanDitekan) {
-        //     adonanDitekan = false;
-        //     canvas_adonan = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-        //     lib_adonan = new library(canvas_handler.width, canvas_adonan);
-
-        //     lib.image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-        //     lib.gelombangBunga(xc, yc, radius_batas, 5, radius_batas * 0.18, warna_batas);
-        //     ctx.putImageData(lib.image_data, 0, 0);
-        // }
     });
 }

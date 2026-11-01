@@ -59,9 +59,34 @@ export default function drawPiring(canvas_handler) {
     }
     ctx.putImageData(image_data, 0, 0, 701, 521, 699, 79);
 
+    let teksKematangan = "";
+    if (canvas_handler.statusMateng == "matang") {
+        teksKematangan = "Kematangan adonan kamu pas! +40";
+    } else if (canvas_handler.statusMateng == "mentah") {
+        teksKematangan = "Adonan belum Matang! -5";
+    } else {
+        teksKematangan = "Adonan kamu gosong! -30";
+    }
+
     ctx.font = "bold 18px sans-serif";
     ctx.fillStyle = "#004C71";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("Pancake matang! Tuangkan maple syrup!", 1050, 560);
-}
+
+    ctx.fillText(teksKematangan, 1050, 545);
+
+    setTimeout(() => {
+        image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+        lib = new library(canvas_handler.width, image_data);
+        for (let y = 521; y < 600; y++) {
+            for (let x = 701; x < 1400; x++) {
+                lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
+            }
+        }
+        ctx.putImageData(image_data, 0, 0, 701, 521, 699, 79);
+
+        ctx.font = "bold 18px sans-serif";
+        ctx.fillStyle = "#004C71";
+        ctx.fillText("Tuangkan maple syrup!", 1050, 560);
+    },2500);
+};

@@ -1,4 +1,4 @@
-import library from "../lib/libA.js";
+﻿import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
 export default function drawAdonan(canvas_handler, onSelesai) {
@@ -32,6 +32,10 @@ export default function drawAdonan(canvas_handler, onSelesai) {
 
     // klik adonan
     canvas_handler.addEventListener("mousedown", function(e) {
+        if(!canvas_handler.butterDiklik){
+            return;
+        }
+        
         if (canvas_handler.isPiring) {
             return; // ketika sudah ganti piring, adonan tidak bisa dipencet lagi
         }

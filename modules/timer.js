@@ -144,7 +144,19 @@ export default function timer(canvas_handler) {
             // Ketika timer habis / mati
             clearInterval(timerInterval);
             timerInterval = null;
+            canvas_handler.statusMateng = "gosong";
+
             ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
+
+            if (sudahDibalik == false) {
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillStyle = "#C00000";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("Yahh pancake kamu gosong! Klik untuk membalik!", 1050, 560);
+                return;
+            }
+
             drawPiring(canvas_handler);
             return;
         }
@@ -228,34 +240,88 @@ export default function timer(canvas_handler) {
         let dy = mouseY - 330;
 
         if ((dx * dx + dy * dy) <= (180 * 180)){
-            if (kotakDalamKanan <= 1045 && gosong == false){
-                if (sudahDibalik == false){
-                    sudahDibalik = true;
-                    kotakDalamKanan = 1270;
-                    notifikasi1 = false;
-                    
-                    let imgTeflon = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-                    let libTeflon = new library(canvas_handler.width, imgTeflon);
-                    let ukuranPenkeik = canvas_handler.radiusAdonan;
-    
-                    for (let i = 0; i <= ukuranPenkeik; i++){
-                        libTeflon.polar_circle(350, 330, i, { r: 242, g: 228, b: 168 });
-                    }
+            if (sudahDibalik == false){
+                sudahDibalik = true;
 
-                    ctx.putImageData(imgTeflon, 0, 0, 100, 100, 500, 500);
+                if (kotakDalamKanan > 1045) {
+                    canvas_handler.statusMateng = "mentah";
+                } else if (kotakDalamKanan <= 855) {
+                    canvas_handler.statusMateng = "gosong";
                 } else {
-                    kotakDalamKanan = 845;
-                    drawPiring(canvas_handler);
+                    canvas_handler.statusMateng = "matang";
+                }
+
+                kotakDalamKanan = 1270;
+                notifikasi1 = false;
+                gosong = false;
+                
+                let imgTeflon = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+                let libTeflon = new library(canvas_handler.width, imgTeflon);
+                let ukuranPenkeik = canvas_handler.radiusAdonan;
+
+                for (let i = 0; i <= ukuranPenkeik; i++){
+                    libTeflon.polar_circle(350, 330, i, { r: 242, g: 228, b: 168 });
+                }
+
+                ctx.putImageData(imgTeflon, 0, 0, 100, 100, 500, 500);
+
+                for (let y = 521; y < 600; y++) {
+                    for (let x = 701; x < 1400; x++) {
+                        libTeflon.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                    }
+                }
+                ctx.putImageData(imgTeflon, 0, 0, 701, 521, 699, 79);
+
+                let teksKematangan = "";
+                if (canvas_handler.statusMateng == "matang") {
+                    teksKematangan = "Kematangan adonan kamu pas! +40";
+                } else if (canvas_handler.statusMateng == "mentah") {
+                    teksKematangan = "Adonan belum Matang! -5";
+                } else {
+                    teksKematangan = "Adonan kamu gosong! -30";
+                }
+
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillStyle = "#004C71";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+
+                ctx.fillText(teksKematangan, 1050, 560);
+
+                setTimeout(() => {
+                let imgBersih = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+                let libBersih = new library(canvas_handler.width, imgBersih);
+                for (let y = 521; y < 600; y++) {
+                    for (let x = 701; x < 1400; x++) {
+                        libBersih.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                    }
+                }
+                ctx.putImageData(imgBersih, 0, 0, 701, 521, 699, 79);
+
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillStyle = "#004C71";
+                ctx.fillText("Klik untuk mengangkat!", 1050, 560);
+            },2500);
+            }else {
+                if (kotakDalamKanan > 1045) {
+                    canvas_handler.statusMateng = "mentah";
+                } else if (kotakDalamKanan <= 855) {
+                    canvas_handler.statusMateng = "gosong";
+                } else {
+                    canvas_handler.statusMateng = "matang";
+                }
+                
+                clearInterval(timerInterval);
+                timerInterval = null;
+                kotakDalamKanan = 845;
+                drawPiring(canvas_handler);
                 }
             }
-        }
-
-    });
+        });
 
     return function startTimerr(){
         if(!timerInterval){
             timerInterval = setInterval(drawTimer, 150);
         }
     }
-
-}
+};

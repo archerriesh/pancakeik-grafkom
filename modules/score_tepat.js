@@ -207,6 +207,22 @@ export default function score_tepat(canvas_handler) {
                     ctx.textBaseline = "middle";
                     ctx.fillText("Skor kamu : " + total , 1050, 560);
                     langkah = 4;
+
+                    setTimeout(() => {
+                        image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+                        lib = new library(canvas_handler.width, image_data);
+                        for (let y = 521; y < 600; y++) {
+                            for (let x = 701; x < 1400; x++) {
+                                lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
+                            }
+                        }
+                        ctx.putImageData(image_data, 0, 0);
+                        ctx.font = "bold 18px sans-serif";
+                        ctx.fillStyle = "#004C71";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.fillText("Permainan selesai!", 1050, 560);
+                    }, 2500);
                 }, 2000);
             }
         }

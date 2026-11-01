@@ -149,6 +149,13 @@ export default function timer(canvas_handler) {
             ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
 
             if (sudahDibalik == false) {
+                for (let y = 521; y < 600; y++) {
+                    for (let x = 701; x < 1400; x++) {
+                        lib.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                    }
+                }
+                ctx.putImageData(image_data, 0, 0, 701, 521, 699, 79);
+
                 ctx.font = "bold 18px sans-serif";
                 ctx.fillStyle = "#C00000";
                 ctx.textAlign = "center";
@@ -191,8 +198,12 @@ export default function timer(canvas_handler) {
                 ctx.fillStyle = "#004C71";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.fillText("Klik pancake untuk membalikkan adonan!", 1050, 560);
 
+                if (sudahDibalik == false) {
+                    ctx.fillText("Klik pancake untuk membalikkan adonan!", 1050, 560);
+                } else {
+                    ctx.fillText("Klik untuk mengangkat!", 1050, 560);
+                }
             }
         }
         
@@ -223,6 +234,7 @@ export default function timer(canvas_handler) {
                 ctx.font = "bold 18px sans-serif";
                 ctx.fillStyle = "#C00000";
                 ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
                 ctx.fillText("Yahh pancake kamu gosong!", 1050, 560);
 
             }
@@ -251,9 +263,12 @@ export default function timer(canvas_handler) {
                     canvas_handler.statusMateng = "matang";
                 }
 
-                kotakDalamKanan = 1270;
+                clearInterval(timerInterval);
+                kotakDalamKanan = 1272;
                 notifikasi1 = false;
                 gosong = false;
+                timerInterval = setInterval(drawTimer,150);
+                drawTimer();
                 
                 let imgTeflon = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
                 let libTeflon = new library(canvas_handler.width, imgTeflon);
@@ -303,12 +318,8 @@ export default function timer(canvas_handler) {
                 ctx.fillText("Klik untuk mengangkat!", 1050, 560);
             },2500);
             }else {
-                if (kotakDalamKanan > 1045) {
-                    canvas_handler.statusMateng = "mentah";
-                } else if (kotakDalamKanan <= 855) {
+                if (kotakDalamKanan <= 855) {
                     canvas_handler.statusMateng = "gosong";
-                } else {
-                    canvas_handler.statusMateng = "matang";
                 }
                 
                 clearInterval(timerInterval);

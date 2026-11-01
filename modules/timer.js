@@ -86,6 +86,7 @@ export default function timer(canvas_handler) {
     ctx.putImageData(image_data, 0, 0);
 
     
+    let timerInterval = null;
     let kotakDalamKanan = 1270;
     let notifikasi1 = false;
     let gosong = false;
@@ -142,6 +143,7 @@ export default function timer(canvas_handler) {
         } else {
             // Ketika timer habis / mati
             clearInterval(timerInterval);
+            timerInterval = null;
             ctx.putImageData(image_data, 0, 0, 820, 115, 476, 41);
             drawPiring(canvas_handler);
             return;
@@ -251,7 +253,9 @@ export default function timer(canvas_handler) {
     });
 
     return function startTimerr(){
-        setInterval(drawTimer, 150);
+        if(!timerInterval){
+            timerInterval = setInterval(drawTimer, 150);
+        }
     }
 
 }

@@ -40,12 +40,26 @@ export default function drawPiring(canvas_handler) {
     lib.polar_circle(xc, yc, 180, { r: 230, g: 230, b: 230 });
     lib.flood_fill(xc, yc, { r: 255, g: 255, b: 255 });
 
+    // warna peinkek
+    let warnaPancake = { r: 198, g: 137, b: 88 }; // mateng
+    let warnaBorder = { r: 165, g: 110, b: 65 };
+    if (canvas_handler.statusMateng == "mentah") {
+        warnaPancake = { r: 242, g: 228, b: 168 }; // mentah
+        warnaBorder = { r: 215, g: 175, b: 120 };
+    } else if (canvas_handler.statusMateng == "gosong") {
+        warnaPancake = { r: 0, g: 0, b: 0 }; // gosong
+        warnaBorder = { r: 0, g: 0, b: 0 };
+    } else {
+        warnaPancake = { r: 198, g: 137, b: 88 }; // mateng
+        warnaBorder = { r: 165, g: 110, b: 65 };
+    }
+
     // gambar pankeik
     let rPancake = canvas_handler.radiusAdonan || 180;
     for (let i = 0; i <= rPancake; i++) {
-        lib.polar_circle(xc, yc, i, { r: 242, g: 228, b: 168 });
+        lib.polar_circle(xc, yc, i, warnaPancake);
     }
-    lib.polar_circle(xc, yc, rPancake, { r: 215, g: 175, b: 120 });
+    lib.polar_circle(xc, yc, rPancake, warnaBorder);
 
     ctx.putImageData(image_data, 0, 0);
 

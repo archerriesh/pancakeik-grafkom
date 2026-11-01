@@ -318,8 +318,13 @@ export default function timer(canvas_handler) {
                 ctx.fillText("Klik untuk mengangkat!", 1050, 560);
             },2500);
             }else {
-                if (kotakDalamKanan <= 855) {
-                    canvas_handler.statusMateng = "gosong";
+                // Cek kematangan pas dibalik
+                if (kotakDalamKanan > 1045) {
+                    canvas_handler.statusMateng = "mentah"; 
+                } else if (kotakDalamKanan <= 855) {
+                    canvas_handler.statusMateng = "gosong"; 
+                } else {
+                    canvas_handler.statusMateng = "matang"; 
                 }
                 
                 clearInterval(timerInterval);

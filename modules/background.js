@@ -129,7 +129,7 @@ function blendColor(c1, c2, alpha) {
         }
     }
     
-    lib.polygon(titik_kompor, {r:255, g:134, b:167});
+    lib.polygon(titik_kompor, {r:209, g:10, b:91});
     lib.polygon(titik_kotak, {r:255, g:201, b:149});
     lib.polygon(titik_kotak2, {r:255, g:201, b:149});
     lib.flood_fill(1050,325, {r:255, g:251, b:248});

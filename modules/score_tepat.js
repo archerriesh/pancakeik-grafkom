@@ -1,4 +1,4 @@
-﻿import library from "../lib/libA.js";
+import library from "../lib/libA.js";
 
 export default function score_tepat(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
@@ -124,9 +124,9 @@ export default function score_tepat(canvas_handler) {
                                 }
                             }
                             ctx.putImageData(image_data, 0, 0);
-                            // ctx.font = "bold 17px sans-serif";
-                            // ctx.fillStyle = "#004C71";
-                            // ctx.fillText("Berikan sirup diatas adonan!", 1050, 560);
+                            ctx.font = "bold 18px sans-serif";
+                            ctx.fillStyle = "#004C71";
+                            ctx.fillText("Putar cetekan kompor untuk menyalakan api!", 1050, 560);
                             langkah = 3;
                         }, 2000);
                     }, 2000);
@@ -146,7 +146,7 @@ export default function score_tepat(canvas_handler) {
 
                         ctx.font = "bold 18px sans-serif";
                         ctx.fillStyle = "#004C71";
-                        ctx.fillText("Klik untuk membalikkan pancake!", 1050, 560);            
+                        ctx.fillText("Putar cetekan kompor untuk menyalakan api!", 1050, 560);           
                         langkah = 3;
                     }, 2000);
                 }
@@ -221,7 +221,8 @@ export default function score_tepat(canvas_handler) {
                         ctx.fillStyle = "#004C71";
                         ctx.textAlign = "center";
                         ctx.textBaseline = "middle";
-                        ctx.fillText("Permainan selesai!", 1050, 560);
+                        ctx.fillText("Permainan selesai! Klik RESTART untuk main lagi!", 1050, 560);
+                        canvas_handler.permainanSelesai = true;
                     }, 2500);
                 }, 2000);
             }

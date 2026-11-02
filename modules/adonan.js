@@ -1,4 +1,4 @@
-﻿import library from "../lib/libA.js";
+import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
 export default function drawAdonan(canvas_handler, onSelesai) {
@@ -119,7 +119,8 @@ export default function drawAdonan(canvas_handler, onSelesai) {
                     for (let i = 0; i <= radius_awal; i++) {
                         lib.polar_circle(xc, yc, i, { r: 242, g: 228, b: 168 });
                     }
-                    ctx.putImageData(lib.image_data, 0, 0, 100, 100, 500, 500);
+                    ctx.putImageData(lib.image_data, 0, 0, 140, 120, 420, 410);
+                    if (canvas_handler.gambarKnob) canvas_handler.gambarKnob();
                 }
             }
         }

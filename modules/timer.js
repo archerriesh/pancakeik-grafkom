@@ -91,6 +91,7 @@ export default function timer(canvas_handler) {
     let notifikasi1 = false;
     let gosong = false;
     let sudahDibalik = false;
+    canvas_handler.bisaAngkatPancake = false;
 
     function drawTimer(){
 
@@ -164,7 +165,18 @@ export default function timer(canvas_handler) {
                 return;
             }
 
-            drawPiring(canvas_handler);
+            // Jika timer habis saat sisi 2, harus matikan kompor dulu
+            for (let y = 521; y < 600; y++) {
+                for (let x = 701; x < 1400; x++) {
+                    lib.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                }
+            }
+            ctx.putImageData(image_data, 0, 0, 701, 521, 699, 79);
+            ctx.font = "bold 18px sans-serif";
+            ctx.fillStyle = "#C00000";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Gosong! Matikan kompor terlebih dahulu!", 1050, 560);
             return;
         }
 
@@ -175,15 +187,16 @@ export default function timer(canvas_handler) {
         // logika adonan matang
         if (kotakDalamKanan <= 1045){
             if (notifikasi1 == false){
-                notifikasi1 = true
+                notifikasi1 = true;
                 
                 let libMatang = new library(canvas_handler.width, image_data);
-                let ukuranPenkeik =  canvas_handler.radiusAdonan;
+                let ukuranPenkeik = canvas_handler.radiusAdonan;
                 for (let i = 0; i <= ukuranPenkeik; i++){
                     libMatang.polar_circle(350, 330, i, { r: 198, g: 137, b: 88 });
                 }
 
                 ctx.putImageData(image_data, 0, 0, 100, 100, 500, 500);
+                if (canvas_handler.gambarKnob) canvas_handler.gambarKnob();
 
                 // buat bersihin kotak tulisan
                 for (let y = 521; y < 600; y++) {
@@ -202,7 +215,7 @@ export default function timer(canvas_handler) {
                 if (sudahDibalik == false) {
                     ctx.fillText("Klik pancake untuk membalikkan adonan!", 1050, 560);
                 } else {
-                    ctx.fillText("Klik untuk mengangkat!", 1050, 560);
+                    ctx.fillText("Matikan kompor terlebih dahulu!", 1050, 560);
                 }
             }
         }
@@ -221,6 +234,7 @@ export default function timer(canvas_handler) {
                 }
 
                 ctx.putImageData(image_data, 0, 0, 100, 100, 500, 500);
+                if (canvas_handler.gambarKnob) canvas_handler.gambarKnob();
 
                 // buat bersihin kotak tulisan
                 for (let y = 521; y < 600; y++) {
@@ -254,6 +268,7 @@ export default function timer(canvas_handler) {
         if ((dx * dx + dy * dy) <= (180 * 180)){
             if (sudahDibalik == false){
                 sudahDibalik = true;
+                canvas_handler.sudahDibalik = true;
 
                 if (kotakDalamKanan > 1045) {
                     canvas_handler.statusMateng = "mentah";
@@ -279,6 +294,7 @@ export default function timer(canvas_handler) {
                 }
 
                 ctx.putImageData(imgTeflon, 0, 0, 100, 100, 500, 500);
+                if (canvas_handler.gambarKnob) canvas_handler.gambarKnob();
 
                 for (let y = 521; y < 600; y++) {
                     for (let x = 701; x < 1400; x++) {
@@ -304,20 +320,26 @@ export default function timer(canvas_handler) {
                 ctx.fillText(teksKematangan, 1050, 560);
 
                 setTimeout(() => {
-                let imgBersih = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-                let libBersih = new library(canvas_handler.width, imgBersih);
-                for (let y = 521; y < 600; y++) {
-                    for (let x = 701; x < 1400; x++) {
-                        libBersih.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                    let imgBersih = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+                    let libBersih = new library(canvas_handler.width, imgBersih);
+                    for (let y = 521; y < 600; y++) {
+                        for (let x = 701; x < 1400; x++) {
+                            libBersih.draw_dot(x, y, { r: 219, g: 240, b: 225 });
+                        }
                     }
-                }
-                ctx.putImageData(imgBersih, 0, 0, 701, 521, 699, 79);
+                    ctx.putImageData(imgBersih, 0, 0, 701, 521, 699, 79);
 
-                ctx.font = "bold 18px sans-serif";
-                ctx.fillStyle = "#004C71";
-                ctx.fillText("Klik untuk mengangkat!", 1050, 560);
-            },2500);
-            }else {
+                    ctx.font = "bold 18px sans-serif";
+                    ctx.fillStyle = "#004C71";
+                    // Minta pemain mematikan kompor terlebih dahulu
+                    ctx.fillText("Matikan kompor terlebih dahulu!", 1050, 560);
+                }, 2500);
+            } else {
+                // Pancake hanya bisa diangkat setelah kompor dimatikan
+                if (!canvas_handler.bisaAngkatPancake) {
+                    return;
+                }
+
                 // Cek kematangan pas dibalik
                 if (kotakDalamKanan > 1045) {
                     canvas_handler.statusMateng = "mentah"; 
@@ -331,13 +353,25 @@ export default function timer(canvas_handler) {
                 timerInterval = null;
                 kotakDalamKanan = 845;
                 drawPiring(canvas_handler);
-                }
             }
-        });
+        }
+    });
 
-    return function startTimerr(){
+    let startTimerr = function(){
         if(!timerInterval){
             timerInterval = setInterval(drawTimer, 150);
         }
-    }
+    };
+
+    let stopTimerr = function(){
+        if(timerInterval){
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    };
+
+    canvas_handler.startTimer = startTimerr;
+    canvas_handler.stopTimer = stopTimerr;
+
+    return startTimerr;
 };

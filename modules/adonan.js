@@ -1,4 +1,4 @@
-import library from "../lib/libA.js";
+﻿import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
 export default function drawAdonan(canvas_handler, onSelesai) {
@@ -81,8 +81,6 @@ export default function drawAdonan(canvas_handler, onSelesai) {
             timer = 0;
 
             canvas_handler.radiusAdonan = radius_awal;
-            canvas_handler.radiusAdonan = radius_awal;
-            window.radiusAdonan = radius_awal;
 
             onSelesai();
 

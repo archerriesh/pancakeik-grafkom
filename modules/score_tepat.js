@@ -1,4 +1,4 @@
-import library from "../lib/libA.js";
+﻿import library from "../lib/libA.js";
 
 export default function score_tepat(canvas_handler) {
     let ctx = canvas_handler.getContext("2d");
@@ -97,59 +97,23 @@ export default function score_tepat(canvas_handler) {
 
                 ctx.font = "bold 18px sans-serif";
                 ctx.fillStyle = "#004C71";
-                if(poinButter==0){
-                    ctx.fillStyle = "#C00000";
-                    ctx.fillText("Kamu tidak menggunakan butter!", 1050, 560);
+                ctx.fillText(statusAdonan + " + " + poinAdonan + " poin", 1050, 560);
 
-                    setTimeout(() => {
-                        image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-                        lib = new library(canvas_handler.width, image_data);
-                        for (let y = 521; y < 600; y++) {
-                            for (let x = 701; x < 1400; x++) {
-                                lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
-                            }
+                setTimeout(() => {
+                    image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
+                    lib = new library(canvas_handler.width, image_data);
+                    for (let y = 521; y < 600; y++) {
+                        for (let x = 701; x < 1400; x++) {
+                            lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
                         }
-                        ctx.putImageData(image_data, 0, 0);
+                    }
+                    ctx.putImageData(image_data, 0, 0);
 
-                        ctx.font = "bold 18px sans-serif";
-                        ctx.fillStyle = "#004C71";
-                        ctx.fillText(statusAdonan + " + " + poinAdonan, 1050, 560);
-
-                        setTimeout(() => {
-                            image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-                            lib = new library(canvas_handler.width, image_data);
-                            for (let y = 521; y < 600; y++) {
-                                for (let x = 701; x < 1400; x++) {
-                                    lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
-                                }
-                            }
-                            ctx.putImageData(image_data, 0, 0);
-                            ctx.font = "bold 18px sans-serif";
-                            ctx.fillStyle = "#004C71";
-                            ctx.fillText("Putar cetekan kompor untuk menyalakan api!", 1050, 560);
-                            langkah = 3;
-                        }, 2000);
-                    }, 2000);
-
-                }else{
-                    ctx.fillText(statusAdonan + " + " + poinAdonan + "poin", 1050, 560);
-
-                    setTimeout(() => {
-                        image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
-                        lib = new library(canvas_handler.width, image_data);
-                        for (let y = 521; y < 600; y++) {
-                            for (let x = 701; x < 1400; x++) {
-                                lib.draw_dot(x, y, { r: 219, g: 240, b: 225 }); 
-                            }
-                        }
-                        ctx.putImageData(image_data, 0, 0);
-
-                        ctx.font = "bold 18px sans-serif";
-                        ctx.fillStyle = "#004C71";
-                        ctx.fillText("Putar cetekan kompor untuk menyalakan api!", 1050, 560);           
-                        langkah = 3;
-                    }, 2000);
-                }
+                    ctx.font = "bold 18px sans-serif";
+                    ctx.fillStyle = "#004C71";
+                    ctx.fillText("Putar cetekan kompor untuk menyalakan api!", 1050, 560);           
+                    langkah = 3;
+                }, 2000);
             }
         }
         // poin syrup
@@ -166,19 +130,27 @@ export default function score_tepat(canvas_handler) {
                     poinSyrup = 15;
                     statusSyrup = "Syrup Terlalu Banyak!";
                 }
-
-                let teksKematangan = "";
-                if (canvas_handler.statusKematangan === "matang") {
-                    poinMateng = 40;
-                    teksKematangan = "Matang Pas (+40)";
-                } else if (canvas_handler.statusKematangan === "mentah") {
-                    poinMateng = 10;
-                    teksKematangan = "Belum Matang (+10)";
+                // poin sisi 1
+                let poinSisi1 = 0;
+                if (canvas_handler.statusMatengSisi1 == "matang") {
+                    poinSisi1 = 40;
+                } else if (canvas_handler.statusMatengSisi1 == "mentah") {
+                    poinSisi1 = -5;
                 } else {
-                    poinMateng = 0;
-                    teksKematangan = "Gosong (+0)";
+                    poinSisi1 = -30;
                 }
 
+                // poin pas udh dibalik
+                let poinSisi2 = 0;
+                if (canvas_handler.statusMatengSisi2 === "matang") {
+                    poinSisi2 = 40;
+                } else if (canvas_handler.statusMatengSisi2 === "mentah") {
+                    poinSisi2 = -5;
+                } else {
+                    poinSisi2 = -30;
+                }
+
+                let poinMateng = poinSisi1 + poinSisi2;
                 let total = poinButter + poinAdonan + poinMateng + poinSyrup;
                 image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
                 lib = new library(canvas_handler.width, image_data);

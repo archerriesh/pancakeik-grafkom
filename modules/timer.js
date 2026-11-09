@@ -277,6 +277,7 @@ export default function timer(canvas_handler) {
                 } else {
                     canvas_handler.statusMateng = "matang";
                 }
+                canvas_handler.statusMatengSisi1 = canvas_handler.statusMateng;
 
                 clearInterval(timerInterval);
                 kotakDalamKanan = 1272;
@@ -348,6 +349,7 @@ export default function timer(canvas_handler) {
                 } else {
                     canvas_handler.statusMateng = "matang"; 
                 }
+                canvas_handler.statusMatengSisi2 = canvas_handler.statusMateng;
                 
                 clearInterval(timerInterval);
                 timerInterval = null;

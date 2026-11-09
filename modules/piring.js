@@ -7,15 +7,30 @@ export default function drawPiring(canvas_handler) {
     let image_data = ctx.getImageData(0, 0, canvas_handler.width, canvas_handler.height);
     let lib = new library(canvas_handler.width, image_data);
 
-    // kita hempas kompor ciao bella murka
-    if (canvas_handler.taplakKompor) {
-        for (let y = 60; y <= 600; y++) {
-            for (let x = 50; x <= 650; x++) {
-                let index = 4 * (x + y * canvas_handler.width);
-                image_data.data[index] = canvas_handler.taplakKompor[index];
-                image_data.data[index + 1] = canvas_handler.taplakKompor[index + 1];
-                image_data.data[index + 2] = canvas_handler.taplakKompor[index + 2];
-                image_data.data[index + 3] = canvas_handler.taplakKompor[index + 3];
+    // kita hempas kompor ciao bella murka dengan menggambar ulang taplak meja
+    const ukuranKotak = 32;
+    const warnaBatas = { r: 255, g: 249, b: 219 };
+    const warnaBase = { r: 255, g: 253, b: 232 };
+    const warnaStripe = { r: 255, g: 241, b: 182 };
+    const warnaOverlap = { r: 255, g: 234, b: 150 };
+
+    for (let y = 60; y <= 600; y++) {
+        for (let x = 50; x <= 650; x++) {
+            if (x % ukuranKotak === 0 || y % ukuranKotak === 0) {
+                lib.draw_dot(x, y, warnaBatas);
+            } else {
+                let kolom = Math.floor(x / ukuranKotak);
+                let baris = Math.floor(y / ukuranKotak);
+                let isH = (baris % 2 === 1);
+                let isV = (kolom % 2 === 1);
+
+                if (isH && isV) {
+                    lib.draw_dot(x, y, warnaOverlap);
+                } else if (isH || isV) {
+                    lib.draw_dot(x, y, warnaStripe);
+                } else {
+                    lib.draw_dot(x, y, warnaBase);
+                }
             }
         }
     }

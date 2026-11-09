@@ -1,4 +1,4 @@
-﻿import library from "../lib/libA.js";
+import library from "../lib/libA.js";
 import matrix from "../lib/matrixA.js";
 
 export default function drawSyrup(canvas_handler) {
@@ -106,10 +106,6 @@ export default function drawSyrup(canvas_handler) {
     let warna_maple = { r: 180, g: 75, b: 15 };
     let opacity_maple = 0.55;
 
-    let adonan_x = 850;
-    let adonan_y = 285;
-    let adonan_r = 76;
-    let adonanDitekan = false;
     let canvas_adonan = null;
     let lib_adonan = null;
 
@@ -153,18 +149,11 @@ export default function drawSyrup(canvas_handler) {
 
         ctx.putImageData(lib.image_data, 0, 0);
     }
-
-    // klik adonan / syrup
+    
     canvas_handler.addEventListener("mousedown", function(e) {
         let rect = canvas_handler.getBoundingClientRect();
         let mouseX = (e.clientX - rect.left) * (canvas_handler.width / rect.width);
         let mouseY = (e.clientY - rect.top) * (canvas_handler.height / rect.height);
-
-        let dx_adonan = mouseX - adonan_x;
-        let dy_adonan = mouseY - adonan_y;
-        if(dx_adonan*dx_adonan + dy_adonan*dy_adonan <= adonan_r*adonan_r){
-            adonanDitekan = true;
-        }
 
         let dx = mouseX - syrup_x;
         let dy = mouseY - syrup_y;
